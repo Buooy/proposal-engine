@@ -1,0 +1,78 @@
+#landing{
+	
+	&{
+		background-color: green;
+		color: white;
+	}
+	
+	a{
+		color: white;
+	}
+	
+	#cover-photo{
+		margin: 0;
+		padding: 0;
+		max-width: 100%;
+		
+		img{
+			width: 100%;
+		}
+		
+	}
+	
+	#landing-details{
+			
+		&{
+			padding: 40px;
+			margin-top: 100px;
+		}	
+			
+		h1.project-title{
+			font-size: 50px;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+		
+		.company{
+			width: 100%;
+			
+			
+			figure,img,h3{
+				display: inline-block;
+				vertical-align: middle;
+			}
+			figure, img{
+				width: 150px;
+			}
+			h3{
+				line-height: 1.5;
+				margin-left: 10px;
+			}
+			
+		}
+		
+	}
+	
+	footer{
+		position: absolute;
+		background-color: #555;
+		padding: 20px;
+		bottom: 0;
+		width: 100%;
+		
+		h1{
+			margin-top: 0;
+		}
+		
+		.icon{
+			height: 30px;
+			margin: 0 auto;
+		}
+		
+		.border-right{
+			border-right: 1px solid white;
+			height: 100%;
+		}
+	}
+	
+}

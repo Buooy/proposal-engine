@@ -1,0 +1,31 @@
+main.container {
+  margin-top: 60px; }
+
+#scope-of-work .scope-of-work-section, #scope-of-work .investment-section, #investment .scope-of-work-section, #investment .investment-section {
+  padding: 7px;
+  border: 1px solid #bbb;
+  border-radius: 2px;
+  margin: 15px 0; }
+  #scope-of-work .scope-of-work-section table, #scope-of-work .investment-section table, #investment .scope-of-work-section table, #investment .investment-section table {
+    margin-bottom: 0; }
+
+#investment td.investment-sort-handler {
+  width: 20px; }
+
+#investment td.investment-name {
+  width: 65%; }
+
+#investment td.investment-cost {
+  width: 30%; }
+
+.sortable-ghost {
+  opacity: 0.5; }
+
+.sort-handler {
+  padding: 0 10px 0 5px;
+  cursor: pointer; }
+
+footer.footer {
+  padding: 30px; }
+
+/*# sourceMappingURL=app.css.map */

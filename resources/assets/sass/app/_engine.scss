@@ -1,0 +1,30 @@
+#scope-of-work, #investment{
+	
+	.scope-of-work-section, .investment-section{
+		
+		padding: 7px;
+		border: 1px solid #bbb;
+		border-radius: 2px;
+		margin: 15px 0;
+		
+		table{
+			margin-bottom: 0;
+		}
+		
+	}
+	
+}
+
+#investment{
+	
+	td.investment-sort-handler{
+		width: 20px;
+	}
+	td.investment-name{
+		width: 65%;
+	}
+	td.investment-cost{
+		width: 30%;
+	}
+	
+}
