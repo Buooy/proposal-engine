@@ -4,7 +4,7 @@
     
     <div class="row">
         <div class="col-md-12">
-            <textarea id="project-timeline-main" class="summernote" rows="12"></textarea>
+            <textarea id="project-timeline-main" class="summernote" rows="12"><?php echo e($proposal->{'project-timeline-main'}); ?></textarea>
         </div>
     </div>
 	

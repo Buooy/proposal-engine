@@ -21,6 +21,19 @@ class ProposalController extends Controller
     {
         $this->id = Auth::user()->id;
         $this->user = User::findOrFail($this->id);
+        
+        $this->fields = [
+            'project-details-title' =>  'required',
+            'project-details-client-company-name' =>  'required',
+            'project-details-client-company-website' => 'required|url',
+            'project-details-client-company-address' => 'alpha_dash',
+            'project-details-client-contact-name'   => 'required',
+            'project-details-client-contact-email'  =>  'required|email',
+            'project-overview'  =>  'required',
+            'project-timeline-main'  =>  'required',
+            'project-scope-of-work'  =>  'required',
+            'project-investment'  =>  'required',
+        ];
     }
 
     public function getNewProposalView()
@@ -28,7 +41,10 @@ class ProposalController extends Controller
         $details = User::whereId($this->id)->first();
         $proposal = new Proposal;
 
-        return view('proposal.edit.new', ['proposal' => $proposal])->withAccount($details);
+        return view('proposal.edit.new', [
+            'proposal' => $proposal,
+            'action'      => 'new'
+        ])->withAccount($details);
     }
     public function getEditProposalView( $uid )
     {
@@ -42,7 +58,11 @@ class ProposalController extends Controller
         print_r( $proposal->{'project-details-title'} );
         echo '</pre>';
         */
-        return view('proposal.edit.new', [ 'proposal' => $proposal ])->withAccount($details);
+        return view('proposal.edit.new', [ 
+            'proposal'  => $proposal,
+            'action'    => 'edit',
+            'uid'       => $uid
+        ])->withAccount($details);
     }
     public function getAllProposalView()
     {
@@ -66,6 +86,38 @@ class ProposalController extends Controller
     
     
     /**
+     * Updates created quotation
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function updateProposal( Request $request, $uid )
+    {
+        
+        // Validates the fields
+        $this->validate($request, $this->fields);
+        
+        // Gets the proposal
+        $proposal = Proposal::where('uid',$uid)->first();
+        
+        // Populate the fields
+        foreach($this->fields as $field => $validation){
+            $proposal->{$field} = $request->{$field};
+        }
+        
+        // Saves the fields
+        $success = $proposal->save();
+        
+        // response
+        $response = [
+            'success'   =>  $success,
+            'uid'       =>  $uid
+        ];
+        
+        return response()->json($response);
+    }
+    
+    /**
      * Store a newly created quotation
      *
      * @param  Request  $request
@@ -74,28 +126,14 @@ class ProposalController extends Controller
     public function insertNewProposal( Request $request )
     {
         
-        // Validation fields 
-        $fields = [
-            'project-details-title' =>  'required',
-            'project-details-client-company-name' =>  'required',
-            'project-details-client-company-website' => 'required|url',
-            'project-details-client-company-address' => 'alpha_dash',
-            'project-details-client-contact-name'   => 'required',
-            'project-details-client-contact-email'  =>  'required|email',
-            'project-overview'  =>  'required',
-            'project-timeline-main'  =>  'required',
-            'project-scope-of-work'  =>  'required',
-            'project-investment'  =>  'required',
-        ];
-        
         // validates the fields
-        $this->validate($request, $fields);
+        $this->validate($request, $this->fields);
         
         // Creates a new Proposal model
         $proposal = new Proposal;
         
         // Populate the fields
-        foreach($fields as $field => $validation){
+        foreach($this->fields as $field => $validation){
             $proposal->{$field} = $request->{$field};
         }
         
@@ -105,10 +143,35 @@ class ProposalController extends Controller
         // Saves the fields
         $success = $proposal->save();
         
-        return response()->json($success);
+        // response
+        $response = [
+            'success'   =>  $success,
+            'uid'       =>  $proposal->uid
+        ];
+        
+        return response()->json($response);
     }
         
-
+    /**
+     * Deletes a created quotation
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function deleteProposal( Request $request, $uid )
+    {
+        
+        $success = Proposal::where('uid', $uid)->delete();
+        
+        $response = [
+            'success'   =>  $success,
+            'uid'       =>  $uid
+        ];
+        
+        return response()->json($response);
+        
+    }
+    
     /**
      * Performs redirections
      *

@@ -17,7 +17,11 @@ elixir(function(mix) {
             'plugins/sortable.min.js',
             'plugins/sortable.jquery.js',
             
-            'engine/engine.js',
+            'proposals/all.js',
+            'proposals/engine.js',
+            
+            'invoices/all.js',
+            
             'plugins/mindmup-editabletable.js',
             'app.js'
         ]);

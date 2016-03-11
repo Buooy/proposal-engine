@@ -15,26 +15,26 @@
 				<table class="table table-striped">
 					<thead>
 						<tr>
-							<th contenteditable="true">Edit This Section Title</th>
+							<th class="scope-of-work-section-title" contenteditable="true">Edit This Section Title</th>
 							<th class="text-right">
 								<button class="btn btn-xs btn-primary" data-action="add-scope-of-work-row">
 									<i class="fa fa-plus"></i>&nbsp;&nbsp;Add Row
+								</button>
+								<button class="btn btn-xs btn-danger" data-action="delete-scope-of-work-section">
+									<i class="fa fa-remove"></i>&nbsp;&nbsp;Delete Section
 								</button>
 							</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr><td><i class='fa fa-ellipsis-v sort-handler'></i><span contenteditable='true'>Edit This Scope of Work</span></td></tr>
-					</tbody>
-					<tfoot>
 						<tr>
 							<td>
-								<button class="btn btn-xs btn-primary" data-action="add-scope-of-work-row">
-									<i class="fa fa-plus"></i>&nbsp;&nbsp;Add Row
-								</button>
+								<i class='fa fa-ellipsis-v sort-handler'></i>
+								<span class="scope-of-work-item" contenteditable='true'>Edit This Scope of Work</span>
 							</td>
+							<td class="text-right"><i class="fa fa-remove" data-action="delete-scope-of-work-row"></i></td>
 						</tr>
-					</tfoot>
+					</tbody>
 				</table>
 			</section>
 		</div>

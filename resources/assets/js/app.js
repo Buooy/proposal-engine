@@ -1,5 +1,8 @@
 jQuery(document).ready(function($){
     
-    new Engine;
+    new ProposalEngine;
+    new ProposalAll;
+    
+    new InvoicesAll;
     
 });

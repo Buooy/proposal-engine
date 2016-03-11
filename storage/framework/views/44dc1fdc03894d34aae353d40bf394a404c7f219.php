@@ -1,6 +1,4 @@
-@extends('layouts.master')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="main-container">
          <h1>Thanks for anchoring at our dock</h1>
          <p class="lead">The Dock is Buooy's Private Internal Dashboard</p>
@@ -29,4 +27,5 @@
             </div>
         </div>
     </div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.master', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

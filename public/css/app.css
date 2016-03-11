@@ -1,13 +1,21 @@
 main.container {
   margin-top: 60px; }
 
-#scope-of-work .scope-of-work-section, #scope-of-work .investment-section, #investment .scope-of-work-section, #investment .investment-section {
+#proposals-list .actions {
+  margin-right: 10px; }
+  #proposals-list .actions:hover {
+    color: #999; }
+
+#scope-of-work .scope-of-work-section, #scope-of-work .investment-section, #investment .scope-of-work-section, #investment .investment-section, #investment-total .scope-of-work-section, #investment-total .investment-section {
   padding: 7px;
   border: 1px solid #bbb;
   border-radius: 2px;
   margin: 15px 0; }
-  #scope-of-work .scope-of-work-section table, #scope-of-work .investment-section table, #investment .scope-of-work-section table, #investment .investment-section table {
+  #scope-of-work .scope-of-work-section table, #scope-of-work .investment-section table, #investment .scope-of-work-section table, #investment .investment-section table, #investment-total .scope-of-work-section table, #investment-total .investment-section table {
     margin-bottom: 0; }
+
+#scope-of-work .fa-remove, #investment .fa-remove, #investment-total .fa-remove {
+  cursor: pointer; }
 
 #investment td.investment-sort-handler {
   width: 20px; }
@@ -17,6 +25,19 @@ main.container {
 
 #investment td.investment-cost {
   width: 30%; }
+
+#messages {
+  margin-top: 20px; }
+
+#invoices-list .label-status {
+  width: 50px;
+  padding: 5px 0;
+  display: inline-block; }
+
+#invoices-list .actions {
+  margin-right: 10px; }
+  #invoices-list .actions:hover {
+    color: #999; }
 
 .sortable-ghost {
   opacity: 0.5; }

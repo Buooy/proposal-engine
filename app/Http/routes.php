@@ -25,9 +25,11 @@
 
 Route::group(['middleware' => ['web']], function () {
 
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', [
+        'uses' => 'DashboardController@getDashboardView',
+        'as'   => 'dashboard.view',
+        'middleware' => ['auth']
+    ]);
 
     Route::get('/api', function () {
         return view('apidashboard');
@@ -244,12 +246,6 @@ Route::group(['middleware' => ['web']], function () {
     //  =============================================================
     //  Proposals
     //  =============================================================
-    //  Proposal Preview
-    Route::get('/proposal/preview/{uid}', [
-        'uses' => 'ProposalController@getPreviewProposalView',
-        'as'   => 'proposal.preview',
-        'middleware' => ['auth']
-    ]);
     //  List of all Proposals
     Route::get('/proposals', [
         'uses' => 'ProposalController@getAllProposalView',
@@ -257,28 +253,66 @@ Route::group(['middleware' => ['web']], function () {
         'middleware' => ['auth']
     ]);
     
-    // Edits a proposal
-    Route::get('/proposal/edit/{uid}', [
-        'uses' => 'ProposalController@getEditProposalView',
-        'as'   => 'proposal.edit',
-        'middleware' => ['auth']
-    ]);
-    Route::get('/proposal/edit', [
-        'uses' => 'ProposalController@redirectToNewProposalPage',
-        'middleware' => ['auth']
-    ]);
+    Route::group(['prefix' => '/proposal'], function() {
+        
+        //  Proposal Preview
+        Route::get('preview/{uid}', [
+            'uses' => 'ProposalController@getPreviewProposalView',
+            'as'   => 'proposal.preview',
+            'middleware' => ['auth']
+        ]);
+        // Edits a proposal
+        Route::get('edit/{uid}', [
+            'uses' => 'ProposalController@getEditProposalView',
+            'as'   => 'proposal.edit',
+            'middleware' => ['auth']
+        ]);
+        Route::get('edit', [
+            'uses' => 'ProposalController@redirectToNewProposalPage',
+            'middleware' => ['auth']
+        ]);
+        Route::post('edit/{uid}', [
+            'uses' => 'ProposalController@updateProposal',
+            'as'   => 'proposal.update',
+            'middleware' => ['auth']
+        ]);
+        
+        
+        // Create a new proposal
+        Route::get('new', [
+            'uses' => 'ProposalController@getNewProposalView',
+            'as'   => 'proposal.new',
+            'middleware' => ['auth']
+        ]);
+        Route::post('new', [
+            'as'   => 'proposal.insert',
+            'uses' => 'ProposalController@insertNewProposal',
+            'middleware' => ['auth']
+        ]);
+        
+        // Deletes a proposal
+        Route::post('delete/{uid}', [
+            'uses' => 'ProposalController@deleteProposal',
+            'as'   => 'proposal.delete',
+            'middleware' => ['auth']
+        ]);
+        
+    });
     
-    
-    // Create a new proposal
-    Route::get('/proposal/new', [
-        'uses' => 'ProposalController@getNewProposalView',
-        'as'   => 'proposal.new',
+    //  =============================================================
+    //  Invoices
+    //  =============================================================
+    //  List of all Invoices
+    Route::get('/invoices', [
+        'uses' => 'InvoicesController@getAllInvoicesView',
+        'as'   => 'invoices.viewAll',
         'middleware' => ['auth']
     ]);
-    Route::post('/proposal/new', [
-        'as'   => 'proposal.insert',
-        'uses' => 'ProposalController@insertNewProposal',
+    Route::post('/invoices', [
+        'uses' => 'InvoicesController@getAllInvoices',
         'middleware' => ['auth']
     ]);
-    
+    Route::group(['prefix' => '/invoices'], function() {
+        //
+    });
 });

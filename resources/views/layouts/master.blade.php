@@ -4,13 +4,15 @@
     <meta name="viewport" content="width=device-width">
     <title>Quotation Engine</title>
     <meta name="description" content="This is a boilerplate for building Hackathon apps">
-    <link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css">
+    <link rel="stylesheet" href="https://bootswatch.com/yeti/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.12.0/bootstrap-social.min.css">
     <link rel="stylesheet" href="//www.fuelcdn.com/fuelux/3.13.0/css/fuelux.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/fonts/fontawesome-webfont.ttf">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.1/summernote.css">
     <link rel="stylesheet" href="{{ load_asset('css/app.css') }}">
+    
+    @yield('data')
 </head>
 <body>
     @include('layouts.partials.navbar')

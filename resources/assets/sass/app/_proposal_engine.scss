@@ -1,4 +1,4 @@
-#scope-of-work, #investment{
+#scope-of-work, #investment, #investment-total{
 	
 	.scope-of-work-section, .investment-section{
 		
@@ -11,6 +11,10 @@
 			margin-bottom: 0;
 		}
 		
+	}
+	
+	.fa-remove{
+		cursor:pointer;
 	}
 	
 }
@@ -26,5 +30,11 @@
 	td.investment-cost{
 		width: 30%;
 	}
+	
+}
+
+#messages{
+	
+	margin-top: 20px;
 	
 }

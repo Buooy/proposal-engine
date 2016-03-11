@@ -1,0 +1,17 @@
+#invoices-list{
+	
+	.label-status{
+		width: 50px;
+		padding: 5px 0;
+		display: inline-block;
+	}
+	
+	.actions{
+		margin-right: 10px;
+		
+		&:hover{
+			color: #999;
+		}
+	}
+	
+}
