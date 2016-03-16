@@ -327,6 +327,7 @@ class ProposalEngine{
         // Form input fields
         var input_fields = new Array(
             'project-details-title',
+            'project-details-type',
             'project-details-client-company-name',
             'project-details-client-company-website',
             'project-details-client-company-address',

@@ -10,6 +10,7 @@ use App\User;
 use App\Proposal as Proposal;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Knp\Snappy\Pdf;
 
 
 class ProposalController extends Controller
@@ -19,11 +20,16 @@ class ProposalController extends Controller
 
     public function __construct()
     {
+        if( !Auth::check() ){ 
+            return redirect()->route('auth.login'); 
+        }
+        
         $this->id = Auth::user()->id;
         $this->user = User::findOrFail($this->id);
         
         $this->fields = [
             'project-details-title' =>  'required',
+            'project-details-type' =>  'required',
             'project-details-client-company-name' =>  'required',
             'project-details-client-company-website' => 'required|url',
             'project-details-client-company-address' => 'alpha_dash',
@@ -81,9 +87,60 @@ class ProposalController extends Controller
     public function getPreviewProposalView( $uid )
     {
         $proposal = Proposal::where('uid',$uid)->first();
-        return view('proposal.preview.view', ['proposal' => $proposal]);
+        if( empty( $proposal->{'project-details-type'} ) ){
+            $proposal->{'project-details-type'} = 'custom-project';
+        }
+        
+        return view('proposal.preview.'.$proposal->{'project-details-type'}.'.view', ['proposal' => $proposal]);
     }
     
+    /**
+     * Get Proposal PDF
+     * 
+     * @param  Request  $request
+     * @return Response
+     */
+    public function getProposalPDF( $uid )
+    {
+        $proposal = Proposal::where('uid',$uid)->first();
+        $msg = '';
+        
+        // No such proposal
+        if( empty( $proposal ) ){
+            $response = [
+                'success'   =>  false,
+                'msg'       =>  'There are no proposals with that ID.'
+            ];
+            
+            return response()->json($response);
+        }
+        
+        // Generates the proposal
+        $filename = '/uploads/proposals/proposal-'.$uid.'.pdf';
+        $snappy = new Pdf('/usr/local/bin/wkhtmltopdf');
+        $snappy_options = array(
+            'margin-top'    =>  0,
+            'margin-bottom'    =>  0,
+            'margin-left'    =>  0,
+            'margin-right'    =>  0
+        );
+        $snappy->generate( 
+            action('ProposalController@getPreviewProposalView', ['uid' => $uid]), 
+            public_path().$filename,
+            $snappy_options,
+            true
+        );
+        
+        $response = [
+            'success'   =>  true,
+            'msg'       =>  $msg,
+            'url'       =>  asset($filename)
+        ];
+        
+        //There is a proposal and we will generate it
+        return response()->json($response);
+        
+    }
     
     /**
      * Updates created quotation

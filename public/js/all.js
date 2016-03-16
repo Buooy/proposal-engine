@@ -330,6 +330,140 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return retVal === void 0 ? this : retVal;
     };
 });
+/*!
+ * tablesort v4.0.0 (2015-12-17)
+ * http://tristen.ca/tablesort/demo/
+ * Copyright (c) 2015 ; Licensed MIT
+*/!function () {
+    function a(b, c) {
+        if (!(this instanceof a)) return new a(b, c);if (!b || "TABLE" !== b.tagName) throw new Error("Element must be a table");this.init(b, c || {});
+    }var b = [],
+        c = function c(a) {
+        var b;return window.CustomEvent && "function" == typeof window.CustomEvent ? b = new CustomEvent(a) : (b = document.createEvent("CustomEvent"), b.initCustomEvent(a, !1, !1, void 0)), b;
+    },
+        d = function d(a) {
+        return a.getAttribute("data-sort") || a.textContent || a.innerText || "";
+    },
+        e = function e(a, b) {
+        return a = a.toLowerCase(), b = b.toLowerCase(), a === b ? 0 : b > a ? 1 : -1;
+    },
+        f = function f(a, b) {
+        return function (c, d) {
+            var e = a(c.td, d.td);return 0 === e ? b ? d.index - c.index : c.index - d.index : e;
+        };
+    };a.extend = function (a, c, d) {
+        if ("function" != typeof c || "function" != typeof d) throw new Error("Pattern and sort must be a function");b.push({ name: a, pattern: c, sort: d });
+    }, a.prototype = { init: function init(a, b) {
+            var c,
+                d,
+                e,
+                f,
+                g = this;if (g.table = a, g.thead = !1, g.options = b, a.rows && a.rows.length > 0 && (a.tHead && a.tHead.rows.length > 0 ? (c = a.tHead.rows[a.tHead.rows.length - 1], g.thead = !0) : c = a.rows[0]), c) {
+                var h = function h() {
+                    g.current && g.current !== this && (g.current.classList.remove("sort-up"), g.current.classList.remove("sort-down")), g.current = this, g.sortTable(this);
+                };for (e = 0; e < c.cells.length; e++) {
+                    f = c.cells[e], f.classList.contains("no-sort") || (f.classList.add("sort-header"), f.tabindex = 0, f.addEventListener("click", h, !1), f.classList.contains("sort-default") && (d = f));
+                }d && (g.current = d, g.sortTable(d));
+            }
+        }, sortTable: function sortTable(a, g) {
+            var h,
+                i = this,
+                j = a.cellIndex,
+                k = e,
+                l = "",
+                m = [],
+                n = i.thead ? 0 : 1,
+                o = a.getAttribute("data-sort-method"),
+                p = a.getAttribute("data-sort-order");if (i.table.dispatchEvent(c("beforeSort")), g ? h = a.classList.contains("sort-up") ? "sort-up" : "sort-down" : (h = a.classList.contains("sort-up") ? "sort-down" : a.classList.contains("sort-down") ? "sort-up" : "asc" === p ? "sort-down" : "desc" === p ? "sort-up" : i.options.descending ? "sort-up" : "sort-down", a.classList.remove("sort-down" === h ? "sort-up" : "sort-down"), a.classList.add(h)), !(i.table.rows.length < 2)) {
+                if (!o) {
+                    for (; m.length < 3 && n < i.table.tBodies[0].rows.length;) {
+                        l = d(i.table.tBodies[0].rows[n].cells[j]), l = l.trim(), l.length > 0 && m.push(l), n++;
+                    }if (!m) return;
+                }for (n = 0; n < b.length; n++) {
+                    if (l = b[n], o) {
+                        if (l.name === o) {
+                            k = l.sort;break;
+                        }
+                    } else if (m.every(l.pattern)) {
+                        k = l.sort;break;
+                    }
+                }i.col = j;var q,
+                    r = [],
+                    s = {},
+                    t = 0,
+                    u = 0;for (n = 0; n < i.table.tBodies.length; n++) {
+                    for (q = 0; q < i.table.tBodies[n].rows.length; q++) {
+                        l = i.table.tBodies[n].rows[q], l.classList.contains("no-sort") ? s[t] = l : r.push({ tr: l, td: d(l.cells[i.col]), index: t }), t++;
+                    }
+                }for ("sort-down" === h ? (r.sort(f(k, !0)), r.reverse()) : r.sort(f(k, !1)), n = 0; t > n; n++) {
+                    s[n] ? (l = s[n], u++) : l = r[n - u].tr, i.table.tBodies[0].appendChild(l);
+                }i.table.dispatchEvent(c("afterSort"));
+            }
+        }, refresh: function refresh() {
+            void 0 !== this.current && this.sortTable(this.current, !0);
+        } }, "undefined" != typeof module && module.exports ? module.exports = a : window.Tablesort = a;
+}();
+(function () {
+    var cleanNumber = function cleanNumber(i) {
+        return i.replace(/[^\-?0-9.]/g, '');
+    },
+        compareNumber = function compareNumber(a, b) {
+        a = parseFloat(a);
+        b = parseFloat(b);
+
+        a = isNaN(a) ? 0 : a;
+        b = isNaN(b) ? 0 : b;
+
+        return a - b;
+    };
+
+    Tablesort.extend('number', function (item) {
+        return item.match(/^-?[£\x24Û¢´€]?\d+\s*([,\.]\d{0,2})/) || // Prefixed currency
+        item.match(/^-?\d+\s*([,\.]\d{0,2})?[£\x24Û¢´€]/) || // Suffixed currency
+        item.match(/^-?(\d)*-?([,\.]){0,1}-?(\d)+([E,e][\-+][\d]+)?%?$/); // Number
+    }, function (a, b) {
+        a = cleanNumber(a);
+        b = cleanNumber(b);
+
+        return compareNumber(b, a);
+    });
+})();
+
+var Global = function () {
+    function Global() {
+        _classCallCheck(this, Global);
+
+        this.bindEvents();
+    }
+
+    _createClass(Global, [{
+        key: "bindEvents",
+        value: function bindEvents() {
+
+            this.initLoading();
+        }
+
+        //  The Loading Screen will listen to a global event on the document
+
+    }, {
+        key: "initLoading",
+        value: function initLoading() {
+
+            if ($('#loading-overlay').length <= 0) {
+                return;
+            }
+
+            $(document).on('start_loading', function () {
+                $('#loading-overlay').removeClass('hidden');
+            });
+            $(document).on('stop_loading', function () {
+                $('#loading-overlay').addClass('hidden');
+            });
+        }
+    }]);
+
+    return Global;
+}();
 
 var ProposalAll = function () {
     function ProposalAll() {
@@ -346,9 +480,36 @@ var ProposalAll = function () {
 
             var _this = this;
             $('[data-toggle="tooltip"]').tooltip();
+
+            $('[data-action="download-proposal"]').click(function (e) {
+                e.preventDefault();
+                _this.downloadProposal(this);
+            });
             $('[data-action="delete-proposal"]').click(function (e) {
                 e.preventDefault();
                 _this.deleteProposal(this);
+            });
+        }
+    }, {
+        key: "downloadProposal",
+        value: function downloadProposal(_this) {
+
+            var proposal_id = $(_this).parents('tr').attr('id');
+            var data = {
+                "_token": $(_this).data('csrf')
+            };
+
+            // Starts the loading screen
+            $(document).trigger('start_loading');
+
+            $.post('/proposal/download/' + proposal_id, data).done(function (response) {
+
+                window.open(response.url);
+            }).fail(function (response) {
+                console.log(response);
+            }).always(function (response) {
+
+                $(document).trigger('stop_loading');
             });
         }
     }, {
@@ -742,7 +903,7 @@ var ProposalEngine = function () {
         value: function getData() {
 
             // Form input fields
-            var input_fields = new Array('project-details-title', 'project-details-client-company-name', 'project-details-client-company-website', 'project-details-client-company-address', 'project-details-client-contact-name', 'project-details-client-contact-email', 'project-overview', 'project-timeline-main');
+            var input_fields = new Array('project-details-title', 'project-details-type', 'project-details-client-company-name', 'project-details-client-company-website', 'project-details-client-company-address', 'project-details-client-contact-name', 'project-details-client-contact-email', 'project-overview', 'project-timeline-main');
 
             var data = {
 
@@ -806,10 +967,11 @@ var InvoicesAll = function () {
     function InvoicesAll() {
         _classCallCheck(this, InvoicesAll);
 
-        if ($('#invoices').length < 0) return;
+        if ($('#invoices').length == 0) return;
 
         this.bindEvents();
-        this.initLoading();
+        this.getUnpaidInvoices();
+        this.startLoading();
     }
 
     _createClass(InvoicesAll, [{
@@ -817,20 +979,24 @@ var InvoicesAll = function () {
         value: function bindEvents() {
 
             var _this = this;
+
+            $('[data-action="get-all-invoices"]').click(function () {
+                _this.startLoading();
+                _this.getAllInvoices();
+            });
+            $('[data-action="get-unpaid-invoices"]').click(function () {
+                _this.startLoading();
+                _this.getUnpaidInvoices();
+            });
         }
     }, {
-        key: "initLoading",
-        value: function initLoading() {
+        key: "startLoading",
+        value: function startLoading() {
 
-            var _this = this;
-            $.post('/invoices', { '_token': $('#invoices [name=_token]').val() }).done(function (response) {
-
-                if (response.invoices.length == 0) {
-                    _this.showError();
-                } else {
-                    _this.populateList(response);
-                }
-            });
+            if ($('#invoices-list').length > 0) {
+                $('#invoices-list').addClass('hidden');
+            }
+            $('#invoices-list-loading').removeClass('hidden');
         }
     }, {
         key: "showError",
@@ -839,10 +1005,50 @@ var InvoicesAll = function () {
             $('#invoices-list-error').removeClass('hidden');
         }
     }, {
+        key: "cloneEmptyList",
+        value: function cloneEmptyList() {
+            if ($('#invoices-list').length > 0) {
+                $('#invoices-list').remove();
+            }
+            $('#invoices').prepend($('#invoices-list-template').clone().attr('id', 'invoices-list'));
+        }
+    }, {
+        key: "getAllInvoices",
+        value: function getAllInvoices() {
+
+            var _this = this;
+
+            $.post('/invoices', { '_token': $('#invoices [name=_token]').val() }).done(function (response) {
+
+                if (response.invoices.length == 0) {
+                    _this.showError();
+                } else {
+                    _this.cloneEmptyList();
+                    _this.populateList(response);
+                }
+            });
+        }
+    }, {
+        key: "getUnpaidInvoices",
+        value: function getUnpaidInvoices() {
+
+            var _this = this;
+
+            $.post('/invoices/unpaid', { '_token': $('#invoices [name=_token]').val() }).done(function (response) {
+
+                if (response.invoices.length == 0) {
+                    _this.showError();
+                } else {
+                    _this.cloneEmptyList();
+                    _this.populateList(response);
+                }
+            });
+        }
+    }, {
         key: "populateList",
         value: function populateList(response) {
+
             var invoices = response.invoices;
-            console.log(invoices);
             var invoice_list_body = $('#invoices-list tbody');
 
             $.each(invoices, function (index, invoice) {
@@ -854,9 +1060,9 @@ var InvoicesAll = function () {
                 invoice_line.find('.invoice-status .label-status').html(invoice.status).addClass(response.status_classes[invoice.status]);
                 invoice_line.find('.invoice-organization').html(invoice.organization);
                 invoice_line.find('.invoice-client-name').html(invoice.first_name + ' ' + invoice.last_name);
-                invoice_line.find('.invoice-amount-outstanding').html(invoice.currency_code + invoice.amount_outstanding);
-                invoice_line.find('.invoice-paid').html(invoice.currency_code + invoice.paid);
-                invoice_line.find('.invoice-amount').html(invoice.currency_code + invoice.amount);
+                invoice_line.find('.invoice-amount-outstanding').html(invoice.currency_code + ' ' + invoice.amount_outstanding).attr('data-sort', invoice.amount_outstanding * 100);
+                invoice_line.find('.invoice-paid').html(invoice.currency_code + ' ' + invoice.paid).attr('data-sort', invoice.paid * 100);
+                invoice_line.find('.invoice-amount').html(invoice.currency_code + ' ' + invoice.amount).attr('data-sort', invoice.amount * 100);
                 invoice_line.find('.view-invoice').attr('href', invoice.links.view);
                 invoice_line.find('.edit-invoice').attr('href', invoice.links.edit);
 
@@ -869,6 +1075,10 @@ var InvoicesAll = function () {
 
             $('#invoices-list-loading').addClass('hidden');
             $('#invoices-list').removeClass('hidden');
+            $('#invoices-list tr.template').remove();
+
+            // Sort table
+            new Tablesort(document.getElementById('invoices-list'));
         }
     }]);
 
@@ -1002,6 +1212,8 @@ $.fn.editableTableWidget.defaultOptions = {
 };
 
 jQuery(document).ready(function ($) {
+
+    new Global();
 
     new ProposalEngine();
     new ProposalAll();

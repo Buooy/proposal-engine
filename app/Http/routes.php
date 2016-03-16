@@ -259,7 +259,11 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('preview/{uid}', [
             'uses' => 'ProposalController@getPreviewProposalView',
             'as'   => 'proposal.preview',
-            'middleware' => ['auth']
+        ]);
+        //  Proposal Download
+        Route::post('download/{uid}', [
+            'uses' => 'ProposalController@getProposalPDF',
+            'as'   => 'proposal.download',
         ]);
         // Edits a proposal
         Route::get('edit/{uid}', [
@@ -313,6 +317,11 @@ Route::group(['middleware' => ['web']], function () {
         'middleware' => ['auth']
     ]);
     Route::group(['prefix' => '/invoices'], function() {
-        //
+        
+        Route::post('unpaid', [
+            'uses' => 'InvoicesController@getUnpaidInvoices',
+            'middleware' => ['auth']
+        ]);
+        
     });
 });

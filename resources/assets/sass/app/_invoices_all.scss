@@ -1,5 +1,22 @@
 #invoices-list{
 	
+	th{
+		cursor: pointer;
+		
+		
+		&.sort-header:after, &.sort-header.sort-down:after{
+		   font-family: FontAwesome;
+		   content: "\f0d7";
+		   margin-left: 7px;
+		}
+		&.sort-header.sort-up:after{
+		   font-family: FontAwesome;
+		   content: "\f0d8";
+		   margin-left: 7px;
+		}
+		
+	}
+	
 	.label-status{
 		width: 50px;
 		padding: 5px 0;

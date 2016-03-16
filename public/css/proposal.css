@@ -5369,18 +5369,31 @@ main {
   margin: 0 auto; }
 
 section {
-  height: 1263px;
-  position: relative; }
+  height: 1261px;
+  position: relative;
+  background-color: #fff;
+  border-bottom: 1px solid black; }
+  section article.container-fluid {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 60px;
+    padding-right: 60px; }
+  section .article-body {
+    margin-top: 30px;
+    line-height: 1.8; }
+    section .article-body p {
+      margin-top: 15px;
+      margin-bottom: 15px; }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700; }
 
 #landing {
   background-color: green;
-  color: white; }
+  color: #fff; }
 
 #landing a {
-  color: white; }
+  color: #fff; }
 
 #landing #cover-photo {
   margin: 0;
@@ -5396,7 +5409,9 @@ h1, h2, h3, h4, h5, h6 {
 #landing #landing-details h1.project-title {
   font-size: 50px;
   margin-top: 20px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px; }
 
 #landing #landing-details .company {
   width: 100%; }
@@ -5421,7 +5436,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 30px;
     margin: 0 auto; }
   #landing footer .border-right {
-    border-right: 1px solid white;
+    border-right: 1px solid #fff;
     height: 100%; }
 
 /*# sourceMappingURL=proposal.css.map */

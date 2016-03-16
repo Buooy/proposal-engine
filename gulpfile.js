@@ -16,6 +16,10 @@ elixir(function(mix) {
         .babel([
             'plugins/sortable.min.js',
             'plugins/sortable.jquery.js',
+            'plugins/tablesort.min.js',
+            'plugins/tablesort.number.js',
+            
+            'global/global.js',
             
             'proposals/all.js',
             'proposals/engine.js',

@@ -25,6 +25,10 @@
                     data-toggle="tooltip" data-placement="top" title="Preview Proposal">
                     <i class="fa fa-eye"></i>
                 </a>
+                <a href="#" class="actions" data-action="download-proposal" data-csrf="<?php echo e(csrf_token()); ?>"
+                    data-toggle="tooltip" data-placement="top" title="Download PDF">
+                    <i class="fa fa-file-pdf-o"></i>
+                </a>
                 <a href="/proposal/edit/<?php echo e($proposal->uid); ?>" class="actions"
                     data-toggle="tooltip" data-placement="top" title="Edit Proposal">
                     <i class="fa fa-pencil"></i>

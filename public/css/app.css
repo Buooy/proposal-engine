@@ -1,6 +1,10 @@
 main.container {
   margin-top: 60px; }
 
+main.container header .btn-group {
+  margin-top: 21px;
+  margin-bottom: 10.5px; }
+
 #proposals-list .actions {
   margin-right: 10px; }
   #proposals-list .actions:hover {
@@ -29,6 +33,17 @@ main.container {
 #messages {
   margin-top: 20px; }
 
+#invoices-list th {
+  cursor: pointer; }
+  #invoices-list th.sort-header:after, #invoices-list th.sort-header.sort-down:after {
+    font-family: FontAwesome;
+    content: "\f0d7";
+    margin-left: 7px; }
+  #invoices-list th.sort-header.sort-up:after {
+    font-family: FontAwesome;
+    content: "\f0d8";
+    margin-left: 7px; }
+
 #invoices-list .label-status {
   width: 50px;
   padding: 5px 0;
@@ -48,5 +63,16 @@ main.container {
 
 footer.footer {
   padding: 30px; }
+
+#loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.75);
+  z-index: 999999; }
+  #loading-overlay svg {
+    margin-top: 250px; }
 
 /*# sourceMappingURL=app.css.map */

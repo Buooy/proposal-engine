@@ -17,6 +17,7 @@ return array(
     'Lob\\Tests' => array($vendorDir . '/lob/lob-php/tests'),
     'Lob' => array($vendorDir . '/lob/lob-php/src'),
     'LinkedIn' => array($vendorDir . '/linkedinapi/linkedin'),
+    'Knp\\Snappy' => array($vendorDir . '/knplabs/knp-snappy/src'),
     'JakubOnderka\\PhpConsoleHighlighter' => array($vendorDir . '/jakub-onderka/php-console-highlighter/src'),
     'JakubOnderka\\PhpConsoleColor' => array($vendorDir . '/jakub-onderka/php-console-color/src'),
     'JD\\Cloudder' => array($vendorDir . '/jrm2k6/cloudder/src'),

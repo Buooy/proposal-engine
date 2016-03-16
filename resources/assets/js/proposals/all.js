@@ -10,10 +10,42 @@ class ProposalAll{
         
         var _this = this;
         $('[data-toggle="tooltip"]').tooltip();
+        
+        $('[data-action="download-proposal"]').click( function(e){ 
+            e.preventDefault();
+            _this.downloadProposal( this ); 
+        });
         $('[data-action="delete-proposal"]').click( function(e){ 
             e.preventDefault();
             _this.deleteProposal( this ); 
         });
+        
+    }
+    
+    downloadProposal( _this ){
+        
+        var proposal_id = $(_this).parents('tr').attr('id');
+        var data = {
+            "_token" : $(_this).data('csrf')
+        }
+        
+        // Starts the loading screen
+        $(document).trigger('start_loading');
+        
+        $.post( '/proposal/download/'+proposal_id, data )
+            .done(function(response){
+                
+                window.open(response.url);
+                
+            })
+            .fail(function(response){
+                console.log(response);
+            })
+            .always(function(response){
+                
+                $(document).trigger('stop_loading');
+                
+            });
         
     }
     

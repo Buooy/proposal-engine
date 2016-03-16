@@ -24,7 +24,8 @@
         "hownowstephen/php-foursquare": "1.2.*",
         "jaapz/tumblr": "dev-master",
         "dandelionmood/lastfm": "^0.6.0",
-        "rtconner/freshbooks-api": "dev-master"
+        "rtconner/freshbooks-api": "dev-master",
+        "knplabs/knp-snappy": "^0.4.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

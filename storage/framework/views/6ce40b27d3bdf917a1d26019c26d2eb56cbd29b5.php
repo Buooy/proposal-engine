@@ -1,4 +1,4 @@
-<table id="invoices-list" class="table table-striped hidden">
+<table id="invoices-list-template" class="table table-striped hidden">
     <thead>
         <tr>
             <th>Inv. No</th>
@@ -8,7 +8,7 @@
             <th>Outstanding</th>
             <th>Paid</th>
             <th>Total Amount</th>
-            <th>Actions</th>
+            <th class="no-sort">Actions</i></th>
         </tr>
     </thead>
     <tbody>

@@ -9,8 +9,30 @@ main{
 	margin: 0 auto;
 }
 section{
-	height: 1263px;
+	height: 1261px;
 	position: relative;
+	background-color: #fff;
+	border-bottom: 1px solid black;
+	
+	article.container-fluid{
+		
+		padding-top: 40px;
+		padding-bottom: 40px;
+		padding-left: 60px;
+		padding-right: 60px;
+		
+	}
+	
+	.article-body{
+		margin-top: 30px;
+		line-height: 1.8;
+		
+		p{
+			margin-top: 15px;
+			margin-bottom: 15px;
+		}
+	}
+	
 }
 
 h1, h2, h3, h4, h5, h6{

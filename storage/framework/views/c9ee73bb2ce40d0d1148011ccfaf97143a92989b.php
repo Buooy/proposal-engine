@@ -2,7 +2,13 @@
 <main class="main-container">
     
     <section class="row">
-        <div class="col-xs-12"><h3>Invoices</h3></div>
+        <header class="col-xs-12">
+            <h3 class="pull-left">Invoices</h3>
+            <div class="btn-group pull-right" role="group">
+                <button type="button" class="btn btn-primary" data-action="get-all-invoices">All</button>
+                <button type="button" class="btn btn-success" data-action="get-unpaid-invoices">Unpaid</button>
+            </div>
+        </header>
     </section>
     
     <section class="row">
