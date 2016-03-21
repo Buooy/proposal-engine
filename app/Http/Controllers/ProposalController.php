@@ -32,7 +32,7 @@ class ProposalController extends Controller
             'project-details-type' =>  'required',
             'project-details-client-company-name' =>  'required',
             'project-details-client-company-website' => 'required|url',
-            'project-details-client-company-address' => 'alpha_dash',
+            'project-details-client-company-address' => 'required',
             'project-details-client-contact-name'   => 'required',
             'project-details-client-contact-email'  =>  'required|email',
             'project-overview'  =>  'required',
