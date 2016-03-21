@@ -5,6 +5,8 @@ jQuery(document).ready(function($){
     new ProposalEngine;
     new ProposalAll;
     
+    new TimeTrackingAll;
+    
     new InvoicesAll;
     
 });

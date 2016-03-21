@@ -963,6 +963,192 @@ var ProposalEngine = function () {
     return ProposalEngine;
 }();
 
+var TimeTrackingEntry = Backbone.Model.extend({});
+var TimeTrackingEntries = Backbone.Collection.extend({
+    model: TimeTrackingEntry,
+    initialize: function initialize() {
+
+        // Create current date
+        var curr_date = moment().date(20).format('YYYY-MM-DD');
+        var prev_date = moment().date(21).subtract(1, 'months').format('YYYY-MM-DD');
+
+        // Basic GET from server
+        this.fetchReport({
+            'since': prev_date,
+            'until': curr_date
+        });
+    },
+
+    fetchReport: function fetchReport(parameters) {
+        this.fetchFromSrc('/time-tracking/report?', {
+            'since': parameters.since,
+            'until': parameters.until
+        });
+    },
+
+    fetchFromSrc: function fetchFromSrc(url, parameters) {
+
+        var _this = this;
+
+        if (!_.isEmpty(parameters)) {
+            _.each(parameters, function (parameter, key) {
+                url += key + '=' + parameter + '&';
+            });
+        }
+        //console.log(url);
+        jQuery.get(url, function (response) {
+
+            var report_items = jQuery.parseJSON(response.report);
+
+            // Reset the list
+            _this.reset(null);
+
+            // Adds to the list
+            _.each(report_items.data, function (item) {
+                item.formatted_time = _this.formatTime(item.time);
+                _this.add(item);
+            });
+
+            _this.trigger('ready');
+        }).always(function (response) {
+            $(document).trigger('stop_loading');
+        });
+    },
+
+    // Misc Functions
+    formatTime: function formatTime(ms) {
+        var d, h, m, s;
+        s = Math.floor(ms / 1000);
+        m = Math.floor(s / 60);
+        s = s % 60;
+        h = Math.floor(m / 60);
+        m = m % 60;
+        //d = Math.floor(h / 24);
+        //h = h % 24;
+
+        // Leading Zeros
+        if (s < 10) {
+            s = '0' + s;
+        }
+        if (m < 10) {
+            m = '0' + m;
+        }
+        if (h < 10) {
+            h = '0' + h;
+        }
+        //if( d < 10 ){ d = '0'+d; }
+
+        return h + ":" + m + ":" + s;
+        //return { d: d, h: h, m: m, s: s };
+    }
+});
+var timeTrackingEntries = new TimeTrackingEntries();
+
+var TimeTrackingAll = function () {
+    function TimeTrackingAll() {
+        _classCallCheck(this, TimeTrackingAll);
+
+        if ($('#time-tracking').length == 0) return;
+
+        this.init();
+        this.bindEvents();
+        this.startLoading();
+    }
+
+    _createClass(TimeTrackingAll, [{
+        key: "init",
+        value: function init() {
+
+            var start_date_picker = document.getElementById('time-tracking-datepicker-startdate');
+            var end_date_picker = document.getElementById('time-tracking-datepicker-enddate');
+            start_date_picker.value = moment().date(21).subtract(1, 'month').format('YYYY-MM-DD');
+            end_date_picker.value = moment().date(20).format('YYYY-MM-DD');
+
+            new Pikaday({
+                field: start_date_picker,
+                maxDate: new Date()
+            });
+            new Pikaday({
+                field: document.getElementById('time-tracking-datepicker-enddate'),
+                maxDate: new Date()
+            });
+
+            // Updates the Text
+            this.updateDateText();
+        }
+    }, {
+        key: "bindEvents",
+        value: function bindEvents() {
+
+            var _this = this;
+
+            timeTrackingEntries.on('ready', this.createView, this);
+
+            $('#time-tracking-datepicker-apply').click(function () {
+
+                // Updates the text
+                _this.updateDateText();
+                // Fetches the data
+                _this.fetchData();
+            });
+        }
+    }, {
+        key: "startLoading",
+        value: function startLoading() {
+
+            $(document).trigger('start_loading');
+        }
+    }, {
+        key: "showError",
+        value: function showError() {
+            $('#time-tracking-list-loading').addClass('hidden');
+            $('#time-tracking-list-error').removeClass('hidden');
+        }
+
+        //  ==========================================================
+        //  Fetches the Data
+        //  ==========================================================
+
+    }, {
+        key: "updateDateText",
+        value: function updateDateText() {
+
+            // Updates the text
+            $('#time-tracking-dates-start').html(moment(document.getElementById('time-tracking-datepicker-startdate').value, 'YYYY-MM-DD').format('Do MMM'));
+            $('#time-tracking-dates-end').html(moment(document.getElementById('time-tracking-datepicker-enddate').value, 'YYYY-MM-DD').format('Do MMM'));
+        }
+        //  ==========================================================
+        //  Fetches the Data
+        //  ==========================================================
+
+    }, {
+        key: "fetchData",
+        value: function fetchData() {
+
+            $(document).trigger('start_loading');
+
+            timeTrackingEntries.fetchReport({
+                'since': document.getElementById('time-tracking-datepicker-startdate').value,
+                'until': document.getElementById('time-tracking-datepicker-enddate').value
+            });
+        }
+        //  ==========================================================
+        //  Creates the View
+        //  ==========================================================
+
+    }, {
+        key: "createView",
+        value: function createView() {
+            var template = _.template($("script.time-tracking-list-template").html());
+            $("#time-tracking-list").html(template({ items: timeTrackingEntries.toJSON() }));
+
+            $('#time-tracking-list .menu .item').tab();
+        }
+    }]);
+
+    return TimeTrackingAll;
+}();
+
 var InvoicesAll = function () {
     function InvoicesAll() {
         _classCallCheck(this, InvoicesAll);
@@ -1217,6 +1403,8 @@ jQuery(document).ready(function ($) {
 
     new ProposalEngine();
     new ProposalAll();
+
+    new TimeTrackingAll();
 
     new InvoicesAll();
 });

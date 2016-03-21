@@ -13,6 +13,7 @@
             <ul class="nav navbar-nav">
                 <li class="<?php echo e(request()->path() == "proposals" ? 'active' : 'n'); ?>"><a href="/proposals">Proposals</a></li>
                 <li class="<?php echo e(request()->path() == "invoices" ? 'active' : 'n'); ?>"><a href="/invoices">Invoices</a></li>
+                <li class="<?php echo e(request()->path() == "time-tracking" ? 'active' : 'n'); ?>"><a href="/time-tracking">Time</a></li>
                 <li class="<?php echo e(request()->path() == "estimates" ? 'active' : 'n'); ?>"><a href="/estimates">Estimates (coming soon)</a></li>
             </ul>
 

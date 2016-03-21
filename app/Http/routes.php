@@ -324,4 +324,22 @@ Route::group(['middleware' => ['web']], function () {
         ]);
         
     });
+    //  =============================================================
+    //  Time Tracking
+    //  =============================================================
+    //  List of all Time Tracks
+    Route::get('/time-tracking', [
+        'uses' => 'TimeTrackingController@getAllTimeTrackingView',
+        'as'   => 'TimeTracking.viewAll',
+        'middleware' => ['auth']
+    ]);
+    Route::group(['prefix' => '/time-tracking'], function() {
+        
+        Route::get('report', [
+            'uses' => 'TimeTrackingController@getTimeTrackingReport',
+            'as'   => 'TimeTracking.getReport',
+            'middleware' => ['auth']
+        ]);
+        
+    });
 });
