@@ -44,6 +44,14 @@ class TimeTrackingAll{
             
         });
         
+        $(document).on('click', '#time-tracking-pdf', function(){
+            
+            _this.getPDF( {
+                project_ids : $(this).data('project-ids')
+            } );
+            
+        });
+        
     }
     
     startLoading(){
@@ -92,7 +100,40 @@ class TimeTrackingAll{
         );
         
         $('#time-tracking-list .menu .item').tab();
+        
+        var width = 0;
+        $('.nav.nav-tabs li').each(function( index, el ){
+            width += $(el).width();
+        });
+        $('.nav.nav-tabs').width( width );
     }
     
+    //  ==========================================================
+    //  Get PDF
+    //  ==========================================================
+    getPDF( parameters ){
+        
+        $(document).trigger('start_loading');
+        
+        var parameters = {
+            'until' : document.getElementById('time-tracking-datepicker-enddate').value,
+            'since' : document.getElementById('time-tracking-datepicker-startdate').value,
+            'project_ids' : parameters.project_ids
+        }
+        var url = '/time-tracking/report/pdf?';
+        
+        if( !_.isEmpty(parameters) ){
+            _.each(parameters, function( parameter, key ){
+                url += key+'='+parameter+'&';
+            });
+        }
+        jQuery.get(url)
+            .done(function(response){
+                window.open(response.url, '_blank');
+            })
+            .always(function(response){
+                $(document).trigger('stop_loading');
+            });
+    }
     
 }

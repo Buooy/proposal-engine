@@ -60,6 +60,42 @@ class TimeTrackingController extends Controller
         return $this->sendSuccessResponse( $data );
 
     }
+    public function getTimeTrackingReportPDF( Request $request ){
+        
+        $client = new Client([
+            'base_uri'  =>  $this->api_url,
+            'verify'    =>  false,
+            'auth'      =>  [$_ENV['TOGGL_API_KEY'],'api_token']
+        ]);
+        $endpoint = 'summary.pdf?workspace_id='.$_ENV['TOGGL_WORKSPACE_ID'].'&user_agent=buooy';
+        
+        // Attach the parameters to the endpoint
+        $since = $request->get('since', '');
+        if( !empty($since) ){ 
+            $endpoint .= '&since='.$since ;
+        }
+        $until = $request->get('until', '');
+        if( !empty($until) ){ 
+            $endpoint .= '&until='.$until; 
+        }
+        $project_ids = $request->get('project_ids', '');
+        if( !empty($project_ids) ){ 
+            $endpoint .= '&project_ids='.$project_ids;
+        }
+        
+        // Request from the Toggl Server
+        $filename = str_replace(',','-',$project_ids).'_'.$since.'_to_'.$until.'.pdf';
+        $resource = fopen(public_path('uploads/reports/'.$filename), 'w');
+        $client->request('GET', $endpoint, ['sink' => $resource]);
+        
+        // Data 
+        $data = [
+            'token'    =>    $_ENV['TOGGL_API_KEY'],
+            'url'       =>   asset('uploads/reports/'.$filename)
+        ];
+        return $this->sendSuccessResponse( $data );
+
+    }
     public function sendSuccessResponse( $data ){
         
         

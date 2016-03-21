@@ -340,6 +340,11 @@ Route::group(['middleware' => ['web']], function () {
             'as'   => 'TimeTracking.getReport',
             'middleware' => ['auth']
         ]);
+        Route::get('report/pdf', [
+            'uses' => 'TimeTrackingController@getTimeTrackingReportPDF',
+            'as'   => 'TimeTracking.getReportPDF',
+            'middleware' => ['auth']
+        ]);
         
     });
 });

@@ -7,6 +7,11 @@
 }
 #time-tracking-list{
 	
+	.nav-tabs-container{
+		overflow: auto;
+		padding-bottom: 15px;
+	}
+	
 	.nav-tabs{
 		margin-top: 20px;
 	}
@@ -16,6 +21,15 @@
 	.time{
 		width: 25%;
 		text-align:right;
+	}
+	
+	.tab-content{
+		.btn{
+			margin-top: 20px;
+			margin-bottom: 10.5px;
+			margin-right: 5px;
+			padding: 6.5px 12px;
+		}
 	}
 	
 }
