@@ -21,6 +21,7 @@
     </section>
 
     @include( 'time-tracking.list.datepicker' ) 
+    @include( 'time-tracking.list.create-invoice-modal' ) 
     
 </main>
 @stop

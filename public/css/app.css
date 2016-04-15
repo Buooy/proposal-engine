@@ -258,6 +258,10 @@ main.container header .btn-group {
   margin-right: 5px;
   padding: 6.5px 12px; }
 
+#time-tracking-create-invoice-success figure img {
+  margin: 0 auto;
+  width: 200px; }
+
 .sortable-ghost {
   opacity: 0.5; }
 

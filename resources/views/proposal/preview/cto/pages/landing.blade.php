@@ -8,7 +8,7 @@
 		<div class="col-xs-8">
 			<h1 class="project-title">{{ $proposal->{'project-details-title'} }}</h1>
 			<div class="company">
-				<h3>Chief Technology Officer<br>as a Service</h3>
+				<h3>CTO as a Service</h3>
 			</div>
 		</div>
 		<div id="client" class="col-xs-4">

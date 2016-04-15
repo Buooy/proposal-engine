@@ -1,0 +1,32 @@
+#pitch{
+	header{
+		.lead{
+			margin-top: 20px;
+			font-size: 18px;
+			letter-spacing: 1px;
+			color: #666;
+			font-weight: 600;
+		}
+	}
+	
+	.panel-body{
+		
+		background-color: #fbfbfb;
+		color: #555;
+		
+		figure{
+			
+			height: 100px;
+			svg{
+				max-height: 100px;
+				max-width: 100%;
+			}
+			
+		}
+		
+		p{
+			font-size: 13px;
+		}
+		
+	}
+}

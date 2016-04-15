@@ -1,0 +1,46 @@
+#testimonies{
+	td{
+		padding-top: 25px;
+		padding-bottom: 25px;
+		border-top: none;
+		border-bottom: 1px solid silver;
+	}
+	.logo{
+		width: 40%;
+		vertical-align: middle;
+		padding-right: 30px;
+		
+		figure{
+			padding: 40px 30px;
+			img{
+				margin: 0 auto;
+			}
+		}
+		figure.dark{
+			background-color: #999;
+		}
+	}
+	#pixvc, #ofw {
+		figure{
+			img{
+				height: 100px;
+			}
+		}
+	}
+	#pixvc{
+		figure{
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+	}
+	#ofw{
+		figure{
+			padding-top: 15px;
+			padding-bottom: 15px;
+			img{
+				height: 100px;
+			}
+		}
+	}
+	
+}

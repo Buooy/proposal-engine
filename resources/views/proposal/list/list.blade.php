@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>Project Title</th>
+            <th>Type</th>
             <th>Client Company</th>
             <th>Contact Name</th>
             <th>Contact Email</th>
@@ -12,6 +13,11 @@
     @foreach ($proposals as $proposal)
         <tr id="{{ $proposal->uid }}">
             <td>{{ $proposal->{'project-details-title'} }}</td>
+            <td>
+                <span class="label label-{{ $type_meta[ $proposal->{'project-details-type'} ]['class'] }}">
+                    {{ $type_meta[ $proposal->{'project-details-type'} ]['name'] }}
+                </span>
+            </td>
             <td>{{ $proposal->{'project-details-client-company-name'} }}</td>
             <td>{{ $proposal->{'project-details-client-contact-name'} }}</td>
             <td>

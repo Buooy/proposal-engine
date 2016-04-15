@@ -1,0 +1,36 @@
+#investments{
+	
+	table.project-investment-section{
+		
+		td,th{
+			padding-top: 15px;
+			padding-bottom: 15px;
+			border: 1px solid #3CB371;
+		}
+		th{
+			background-color: #3CB371;
+			color: white;
+		}
+		tfoot{
+			td{
+				background-color: #55AE3A;
+				color: white;
+			}
+		}
+		
+	}
+	
+	table#project-investment-total{
+		margin-top: 50px;
+		&, th, td{
+			border: none;
+		}
+		th{
+			font-size: 22px;
+			color: #555;
+		}
+		
+	}
+	
+	
+}

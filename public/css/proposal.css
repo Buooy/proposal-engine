@@ -5362,7 +5362,8 @@ body {
   margin: 0;
   padding: 0;
   background-color: #333;
-  font-family: 'Open Sans'; }
+  font-family: 'Open Sans';
+  font-size: 15px; }
 
 main {
   width: 892.5px;
@@ -5379,7 +5380,7 @@ section {
     padding-left: 60px;
     padding-right: 60px; }
   section .article-body {
-    margin-top: 30px;
+    margin-top: 20px;
     line-height: 1.8; }
     section .article-body p {
       margin-top: 15px;
@@ -5387,6 +5388,12 @@ section {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700; }
+
+p {
+  font-family: 'Open Sans'; }
+
+table td.info-active {
+  background-color: #27408B; }
 
 #landing {
   background-color: green;
@@ -5438,5 +5445,121 @@ h1, h2, h3, h4, h5, h6 {
   #landing footer .border-right {
     border-right: 1px solid #fff;
     height: 100%; }
+
+#pitch header .lead {
+  margin-top: 20px;
+  font-size: 18px;
+  letter-spacing: 1px;
+  color: #666;
+  font-weight: 600; }
+
+#pitch .panel-body {
+  background-color: #fbfbfb;
+  color: #555; }
+  #pitch .panel-body figure {
+    height: 100px; }
+    #pitch .panel-body figure svg {
+      max-height: 100px;
+      max-width: 100%; }
+  #pitch .panel-body p {
+    font-size: 13px; }
+
+#models #models-cto table {
+  border: none; }
+  #models #models-cto table th {
+    border: none; }
+  #models #models-cto table td {
+    font-weight: 700;
+    font-size: 18px;
+    height: 150px;
+    width: 150px;
+    vertical-align: middle; }
+  #models #models-cto table h4 {
+    font-size: 22px;
+    color: #666; }
+  #models #models-cto table #models-cto-vertical-label {
+    /* IE 9 */
+    -webkit-transform: translate(80px, 0px);
+    /* Safari */
+    transform: translate(80px, 0px);
+    border: none; }
+    #models #models-cto table #models-cto-vertical-label h4 {
+      /* IE 9 */
+      -webkit-transform: rotate(90deg);
+      /* Safari */
+      transform: rotate(90deg);
+      text-align: center;
+      vertical-align: middle;
+      white-space: nowrap; }
+
+#models-2 #models-cto-focuses .areas-of-focus {
+  width: 44%; }
+
+#models-2 #models-cto-focuses .leaders {
+  width: 14%;
+  text-align: center; }
+
+#scope-of-work #scope-of-work-items ul {
+  padding-bottom: 15px; }
+
+#timeline table#methodology-timeline-phases th {
+  background-color: #3CB371;
+  color: white; }
+
+#timeline table#methodology-timeline-phases td, #timeline table#methodology-timeline-phases th {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-color: #3CB371; }
+
+#investments table.project-investment-section td, #investments table.project-investment-section th {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border: 1px solid #3CB371; }
+
+#investments table.project-investment-section th {
+  background-color: #3CB371;
+  color: white; }
+
+#investments table.project-investment-section tfoot td {
+  background-color: #55AE3A;
+  color: white; }
+
+#investments table#project-investment-total {
+  margin-top: 50px; }
+  #investments table#project-investment-total, #investments table#project-investment-total th, #investments table#project-investment-total td {
+    border: none; }
+  #investments table#project-investment-total th {
+    font-size: 22px;
+    color: #555; }
+
+#testimonies td {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border-top: none;
+  border-bottom: 1px solid silver; }
+
+#testimonies .logo {
+  width: 40%;
+  vertical-align: middle;
+  padding-right: 30px; }
+  #testimonies .logo figure {
+    padding: 40px 30px; }
+    #testimonies .logo figure img {
+      margin: 0 auto; }
+  #testimonies .logo figure.dark {
+    background-color: #999; }
+
+#testimonies #pixvc figure img, #testimonies #ofw figure img {
+  height: 100px; }
+
+#testimonies #pixvc figure {
+  padding-top: 0px;
+  padding-bottom: 0px; }
+
+#testimonies #ofw figure {
+  padding-top: 15px;
+  padding-bottom: 15px; }
+  #testimonies #ofw figure img {
+    height: 100px; }
 
 /*# sourceMappingURL=proposal.css.map */

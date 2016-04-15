@@ -88,6 +88,12 @@ class InvoicesAll{
         $.each(invoices, function(index, invoice){
             
             var invoice_line = invoice_list_body.find('tr.template').clone();
+            var date = new Date( invoice.date );
+            if( invoice.status == 'paid' ){
+                date = 'Paid';
+            }else{
+                date = moment(date).format("DD MMM, YYYY");
+            }
             
             // Populate the data
             invoice_line.find('.invoice-number').html( invoice.number );
@@ -100,6 +106,7 @@ class InvoicesAll{
                 .attr('data-sort',invoice.paid*100);
             invoice_line.find('.invoice-amount').html( invoice.currency_code+' '+invoice.amount )
                 .attr('data-sort',invoice.amount*100);
+                invoice_line.find('.invoice-due-date').html( date );
             invoice_line.find('.view-invoice').attr( 'href', invoice.links.view );
             invoice_line.find('.edit-invoice').attr( 'href', invoice.links.edit );
             

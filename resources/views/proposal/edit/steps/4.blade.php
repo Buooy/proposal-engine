@@ -2,6 +2,17 @@
 	
 	<div class="row">	
 		<div class="col-sm-4"><h4>Scope of Work</h4></div>
+	</div>
+	
+	<div class="row">
+        <div class="col-md-12">
+			<h4>Introduction</h4>
+            <textarea id="project-scope-of-work-introduction" class="summernote" rows="5">{{ $proposal->{'project-scope-of-work-introduction'} }}</textarea>
+        </div>
+    </div>
+	
+	<div class="row">	
+		<div class="col-sm-4"><h4>Scopes</h4></div>
 		<div class="col-sm-8 text-right">
 			<button class="btn btn-success" data-action="add-scope-of-work-section">Add Section</button>
 		</div>
@@ -40,5 +51,12 @@
 		</div>
 		
 	</div>
+	
+	<div class="row">
+        <div class="col-md-12">
+			<h4>End</h4>
+            <textarea id="project-scope-of-work-end" class="summernote" rows="5">{{ $proposal->{'project-scope-of-work-end'} }}</textarea>
+        </div>
+    </div>
 	
 </div>

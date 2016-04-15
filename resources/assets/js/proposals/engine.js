@@ -105,12 +105,14 @@ class ProposalEngine{
             var new_section_tr_template = new_section_tbody.find('tr');
             
             // Sets the section title
-            new_section.find('.scope-of-work-section-title').html( $(section['section-title']).removeAttr('style').html() );
+            new_section.find('.scope-of-work-section-title').html(section['section-title']);
             
             $.each( section['section-items'], function( index, item ){
                 var new_section_tr = new_section_tr_template.clone();
+                var _item = $('<div>'+item+'</div>');
+                _item.find('[style]').removeAttr('style');
                 // Sets the section items
-                new_section_tr.find('.scope-of-work-item').html( $(item).removeAttr('style').html() );
+                new_section_tr.find('.scope-of-work-item').html( _item.html() );
                 // Adds to the tbody
                 new_section_tbody.append(new_section_tr);
             } );
@@ -334,7 +336,9 @@ class ProposalEngine{
             'project-details-client-contact-name',
             'project-details-client-contact-email',
             'project-overview',
-            'project-timeline-main'
+            'project-timeline-main',
+            'project-scope-of-work-introduction',
+            'project-scope-of-work-end'
         );
         
         var data = {

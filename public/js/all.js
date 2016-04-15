@@ -672,12 +672,14 @@ var ProposalEngine = function () {
                 var new_section_tr_template = new_section_tbody.find('tr');
 
                 // Sets the section title
-                new_section.find('.scope-of-work-section-title').html($(section['section-title']).removeAttr('style').html());
+                new_section.find('.scope-of-work-section-title').html(section['section-title']);
 
                 $.each(section['section-items'], function (index, item) {
                     var new_section_tr = new_section_tr_template.clone();
+                    var _item = $('<div>' + item + '</div>');
+                    _item.find('[style]').removeAttr('style');
                     // Sets the section items
-                    new_section_tr.find('.scope-of-work-item').html($(item).removeAttr('style').html());
+                    new_section_tr.find('.scope-of-work-item').html(_item.html());
                     // Adds to the tbody
                     new_section_tbody.append(new_section_tr);
                 });
@@ -903,7 +905,7 @@ var ProposalEngine = function () {
         value: function getData() {
 
             // Form input fields
-            var input_fields = new Array('project-details-title', 'project-details-type', 'project-details-client-company-name', 'project-details-client-company-website', 'project-details-client-company-address', 'project-details-client-contact-name', 'project-details-client-contact-email', 'project-overview', 'project-timeline-main');
+            var input_fields = new Array('project-details-title', 'project-details-type', 'project-details-client-company-name', 'project-details-client-company-website', 'project-details-client-company-address', 'project-details-client-contact-name', 'project-details-client-contact-email', 'project-overview', 'project-timeline-main', 'project-scope-of-work-introduction', 'project-scope-of-work-end');
 
             var data = {
 
@@ -1059,6 +1061,8 @@ var TimeTrackingAll = function () {
         key: "init",
         value: function init() {
 
+            this.time_tracking_carousel = $('#time-tracking-create-invoice-modal .carousel');
+
             var start_date_picker = document.getElementById('time-tracking-datepicker-startdate');
             var end_date_picker = document.getElementById('time-tracking-datepicker-enddate');
             start_date_picker.value = moment().date(21).subtract(1, 'month').format('YYYY-MM-DD');
@@ -1075,6 +1079,11 @@ var TimeTrackingAll = function () {
 
             // Updates the Text
             this.updateDateText();
+
+            // Initialises the carousel
+            this.time_tracking_carousel.carousel({
+                interval: false
+            });
         }
     }, {
         key: "bindEvents",
@@ -1097,6 +1106,24 @@ var TimeTrackingAll = function () {
                 _this.getPDF({
                     project_ids: $(this).data('project-ids')
                 });
+            });
+
+            // On Modal Open - Only triggers once
+            $('#time-tracking-create-invoice-modal').one('show.bs.modal', function () {
+                _this.onCreateInvoiceModalOpen();
+            });
+            $('#time-tracking-create-invoice-modal').on('show.bs.modal', function () {
+                _this.resetCreateInvoiceModal();
+            });
+
+            // On Clicking the invoice button
+            $('#time-tracking-create-invoice-button').click(function () {
+                _this.createInvoice();
+            });
+
+            // On clicking the send invoice button
+            $('#time-tracking-send-invoice-button').click(function () {
+                _this.sendInvoice();
             });
         }
     }, {
@@ -1184,6 +1211,102 @@ var TimeTrackingAll = function () {
                 window.open(response.url, '_blank');
             }).always(function (response) {
                 $(document).trigger('stop_loading');
+            });
+        }
+
+        //  ==========================================================
+        //  Creates Invoice Modal
+        //  ==========================================================
+
+    }, {
+        key: "onCreateInvoiceModalOpen",
+        value: function onCreateInvoiceModalOpen() {
+
+            // Triggers a loading icon
+            $.get('/api/clients', function (response) {
+
+                // Adds to the list
+                _.each(response.client, function (client) {
+                    $('#time-tracking-create-invoice-client select').append('<option value="' + client.client_id + '">' + client.first_name + ' ' + client.last_name + ' - ' + client.organization + '</option>');
+                });
+
+                // Initialises the list
+                $('#time-tracking-create-invoice-client').removeClass('hidden');
+                // Enable the button
+                $('#time-tracking-create-invoice-button').removeAttr('disabled');
+            }).always(function (response) {
+                $('#time-tracking-create-invoice-client-loading').addClass('hidden');
+            });
+        }
+    }, {
+        key: "resetCreateInvoiceModal",
+        value: function resetCreateInvoiceModal() {
+
+            //var $ = jQuery.noConflict();
+
+            this.time_tracking_carousel.carousel(0);
+            jQuery('#time-tracking-create-invoice-button').removeClass('hidden');
+            jQuery('#time-tracking-view-invoice-button').addClass('hidden');
+            jQuery('#time-tracking-send-invoice-button').data('invoice-id', '').addClass('hidden');
+        }
+    }, {
+        key: "createInvoice",
+        value: function createInvoice() {
+            var $ = jQuery.noConflict();
+            var _this = this;
+            //var time = timeTrackingEntries.get( $('#time-tracking-list .tab-pane.active').data('project-ids') ).get('time')/1000/60/60;       
+            var data = {
+                '_token': $('[name=_token]').val(),
+                'client_id': $('#time-tracking-create-invoice-client select').val(),
+                'discount': $('#time-tracking-create-invoice-discount').val(),
+                'description': $('#time-tracking-create-invoice-description').val(),
+                'quantity': timeTrackingEntries.get($('#time-tracking-list .tab-pane.active').data('project-ids')).get('time') / 1000 / 60 / 60
+            };
+
+            $('#time-tracking-create-invoice-button').attr('disabled', 'disabled');
+            $('#time-tracking-create-invoice-button .fa-spinner').removeClass('hidden');
+
+            //  Post to the server
+            $.post('/time-tracking/invoice', data).done(function (response) {
+
+                if (response['@attributes']['status'] == 'ok') {
+
+                    // Sets the report url
+                    $('#time-tracking-create-invoice-button').addClass('hidden');
+                    $('#time-tracking-view-invoice-button').attr('href', response.invoice_url).removeClass('hidden');
+                    $('#time-tracking-send-invoice-button').attr('data-invoice-id', response.invoice_id).removeClass('hidden');
+
+                    // Transit to next page
+                    _this.time_tracking_carousel.carousel('next');
+                }
+            }).always(function (response) {
+                $('#time-tracking-create-invoice-button').removeAttr('disabled');
+                $('#time-tracking-create-invoice-button .fa-spinner').addClass('hidden');
+            });
+        }
+    }, {
+        key: "sendInvoice",
+        value: function sendInvoice() {
+
+            var $ = jQuery.noConflict();
+            var time_tracking_send_invoice_button = $('#time-tracking-send-invoice-button');
+            var data = {
+                '_token': $('[name=_token]').val(),
+                'invoice_id': time_tracking_send_invoice_button.attr('data-invoice-id')
+            };
+
+            // Disables the button
+            time_tracking_send_invoice_button.attr('disabled', 'disabled');
+            time_tracking_send_invoice_button.find('.fa-spinner').removeClass('hidden');
+
+            // Sends the invoice
+            $.post('/time-tracking/invoice/send', data).done(function (response) {
+                if (response['@attributes']['status'] == 'ok') {
+                    alert('Invoice Sent!');
+                }
+            }).always(function (response) {
+
+                time_tracking_send_invoice_button.find('.fa-spinner').addClass('hidden');
             });
         }
     }]);
@@ -1282,6 +1405,12 @@ var InvoicesAll = function () {
             $.each(invoices, function (index, invoice) {
 
                 var invoice_line = invoice_list_body.find('tr.template').clone();
+                var date = new Date(invoice.date);
+                if (invoice.status == 'paid') {
+                    date = 'Paid';
+                } else {
+                    date = moment(date).format("DD MMM, YYYY");
+                }
 
                 // Populate the data
                 invoice_line.find('.invoice-number').html(invoice.number);
@@ -1291,6 +1420,7 @@ var InvoicesAll = function () {
                 invoice_line.find('.invoice-amount-outstanding').html(invoice.currency_code + ' ' + invoice.amount_outstanding).attr('data-sort', invoice.amount_outstanding * 100);
                 invoice_line.find('.invoice-paid').html(invoice.currency_code + ' ' + invoice.paid).attr('data-sort', invoice.paid * 100);
                 invoice_line.find('.invoice-amount').html(invoice.currency_code + ' ' + invoice.amount).attr('data-sort', invoice.amount * 100);
+                invoice_line.find('.invoice-due-date').html(date);
                 invoice_line.find('.view-invoice').attr('href', invoice.links.view);
                 invoice_line.find('.edit-invoice').attr('href', invoice.links.edit);
 
