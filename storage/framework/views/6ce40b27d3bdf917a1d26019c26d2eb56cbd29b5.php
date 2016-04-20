@@ -8,6 +8,7 @@
             <th>Outstanding</th>
             <th>Paid</th>
             <th>Total Amount</th>
+            <th>Due Date</th>
             <th class="no-sort">Actions</i></th>
         </tr>
     </thead>
@@ -22,6 +23,7 @@
             <td class="invoice-amount-outstanding"></td>
             <td class="invoice-paid"></td>
             <td class="invoice-amount"></td>
+            <td class="invoice-due-date"></td>
             <td>
                 <a href="" class="view-invoice actions" target="_blank">
                     <i class="fa fa-eye"></i>

@@ -14,8 +14,6 @@ elixir(function(mix) {
     
     mix.sass('app.scss')
         .babel([
-            //'plugins/pikaday.js',
-            //'plugins/pikaday.jquery.js',
             'plugins/sortable.min.js',
             'plugins/sortable.jquery.js',
             'plugins/tablesort.min.js',

@@ -304,6 +304,16 @@ Route::group(['middleware' => ['web']], function () {
     });
     
     //  =============================================================
+    //  Clients
+    //  =============================================================
+    //  List of all Clients
+    Route::get('/api/clients', [
+        'uses' => 'ClientsController@getClientsList',
+        'as'   => 'Clients.getClientsList',
+        'middleware' => ['auth']
+    ]);
+    
+    //  =============================================================
     //  Invoices
     //  =============================================================
     //  List of all Invoices
@@ -343,6 +353,16 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('report/pdf', [
             'uses' => 'TimeTrackingController@getTimeTrackingReportPDF',
             'as'   => 'TimeTracking.getReportPDF',
+            'middleware' => ['auth']
+        ]);
+        Route::post('invoice', [
+            'uses' => 'TimeTrackingController@createTimeTrackingInvoice',
+            'as'   => 'TimeTracking.createInvoice',
+            'middleware' => ['auth']
+        ]);
+        Route::post('invoice/send', [
+            'uses' => 'TimeTrackingController@sendTimeTrackingInvoice',
+            'as'   => 'TimeTracking.sendInvoice',
             'middleware' => ['auth']
         ]);
         

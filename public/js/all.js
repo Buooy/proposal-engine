@@ -1008,6 +1008,8 @@ var TimeTrackingEntries = Backbone.Collection.extend({
             // Adds to the list
             _.each(report_items.data, function (item) {
                 item.formatted_time = _this.formatTime(item.time);
+                item.since = parameters.since;
+                item.until = parameters.until;
                 _this.add(item);
             });
 
@@ -1254,13 +1256,16 @@ var TimeTrackingAll = function () {
         value: function createInvoice() {
             var $ = jQuery.noConflict();
             var _this = this;
-            //var time = timeTrackingEntries.get( $('#time-tracking-list .tab-pane.active').data('project-ids') ).get('time')/1000/60/60;       
+            var timeTrackingEntry = timeTrackingEntries.get($('#time-tracking-list .tab-pane.active').data('project-ids'));
             var data = {
                 '_token': $('[name=_token]').val(),
                 'client_id': $('#time-tracking-create-invoice-client select').val(),
                 'discount': $('#time-tracking-create-invoice-discount').val(),
                 'description': $('#time-tracking-create-invoice-description').val(),
-                'quantity': timeTrackingEntries.get($('#time-tracking-list .tab-pane.active').data('project-ids')).get('time') / 1000 / 60 / 60
+                'quantity': timeTrackingEntry.get('time') / 1000 / 60 / 60,
+                'since': timeTrackingEntry.get('since'),
+                'until': timeTrackingEntry.get('until'),
+                'project_ids': $('#time-tracking-list .tab-pane.active').data('project-ids')
             };
 
             $('#time-tracking-create-invoice-button').attr('disabled', 'disabled');
@@ -1268,7 +1273,6 @@ var TimeTrackingAll = function () {
 
             //  Post to the server
             $.post('/time-tracking/invoice', data).done(function (response) {
-
                 if (response['@attributes']['status'] == 'ok') {
 
                     // Sets the report url
@@ -1279,6 +1283,8 @@ var TimeTrackingAll = function () {
                     // Transit to next page
                     _this.time_tracking_carousel.carousel('next');
                 }
+            }).fail(function (response) {
+                console.log(response.responseText);
             }).always(function (response) {
                 $('#time-tracking-create-invoice-button').removeAttr('disabled');
                 $('#time-tracking-create-invoice-button .fa-spinner').addClass('hidden');

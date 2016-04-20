@@ -44,6 +44,8 @@ var TimeTrackingEntries = Backbone.Collection.extend({
             // Adds to the list
             _.each(report_items.data, function(item){
                 item.formatted_time = _this.formatTime( item.time );
+                item.since = parameters.since;
+                item.until = parameters.until;
                 _this.add(item);
             });
             

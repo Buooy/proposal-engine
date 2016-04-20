@@ -38,6 +38,8 @@ class ProposalController extends Controller
             'project-overview'  =>  'required',
             'project-timeline-main'  =>  'required',
             'project-scope-of-work'  =>  'required',
+            'project-scope-of-work-introduction'  =>  'string',
+            'project-scope-of-work-end'  =>  'string',
             'project-investment'  =>  'required',
         ];
     }
@@ -59,11 +61,6 @@ class ProposalController extends Controller
         // Get the proposal detail
         $proposal = Proposal::where('uid',$uid)->first();
         
-        /*
-        echo '<pre style="margin-top: 200px;">';
-        print_r( $proposal->{'project-details-title'} );
-        echo '</pre>';
-        */
         return view('proposal.edit.new', [ 
             'proposal'  => $proposal,
             'action'    => 'edit',
@@ -75,7 +72,22 @@ class ProposalController extends Controller
         // Gets all the proposals
         $proposals = Proposal::where('deleted_at',NULL)->get();
         
-        return view('proposal.list.all', ['proposals' => $proposals]);
+        // Sets the type meta
+        $type_meta = [
+            'cto'   =>  [
+                'name'  =>  'CTO',
+                'class' =>  'success'   
+            ],
+            'custom-project'   =>  [
+                'name'  =>  'Custom Project',
+                'class' =>  'warning'   
+            ]
+        ];
+        
+        return view('proposal.list.all', [
+            'proposals' => $proposals,
+            'type_meta' => $type_meta,
+        ]);
     }
     
     /**
@@ -90,6 +102,8 @@ class ProposalController extends Controller
         if( empty( $proposal->{'project-details-type'} ) ){
             $proposal->{'project-details-type'} = 'custom-project';
         }
+        $proposal->{'project-investment'} = json_decode($proposal->{'project-investment'});
+        $proposal->{'project-investment-sections'} = $proposal->{'project-investment'}->{'investment-sections'};
         
         return view('proposal.preview.'.$proposal->{'project-details-type'}.'.view', ['proposal' => $proposal]);
     }

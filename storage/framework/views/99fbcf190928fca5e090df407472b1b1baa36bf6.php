@@ -2,21 +2,29 @@
 
 <script type="text/template" class="time-tracking-list-template">
     
-    <ul class="nav nav-tabs" role="tablist">
-    <% _.each( items, function( item, index ){ %>
-        <li role="presentation" class="<% if(index == 0){ %> active<% } %>">
-            <a href="#<%- item.id %>" aria-controls="<%- item.id %>" role="tab" data-toggle="tab">
-                <%- item.title.project %>
-            </a>
-        </li>
-    <% }) %>
-    </ul>
-    
+    <div class="nav-tabs-container">
+        <ul class="nav nav-tabs" role="tablist">
+        <% _.each( items, function( item, index ){ %>
+            <li role="presentation" class="<% if(index == 0){ %> active<% } %>">
+                <a href="#<%- item.id %>" aria-controls="<%- item.id %>" role="tab" data-toggle="tab">
+                    <%- item.title.project %>
+                </a>
+            </li>
+        <% }) %>
+        </ul>
+    </div>
      <div class="tab-content">
     <% _.each( items, function( item, index ){ %>
-        <div role="tabpanel" class="tab-pane <% if(index == 0){ %> active<% } %>" id="<%- item.id %>">
+        <div role="tabpanel" class="tab-pane <% if(index == 0){ %> active<% } %>" id="<%- item.id %>" data-project-ids="<%- item.id %>">
             <h3 class="pull-left"><span class="label" style="background-color:<%- item.title.hex_color %>"><%- item.title.client %></span></h3>
             <h3 class="pull-right"><span class="label label-warning"><%- item.formatted_time %></span></h3>
+            <a href="#" id="time-tracking-pdf" 
+                data-project-ids="<%- item.id %>"
+                class="btn btn-danger pull-right"><i class="fa fa-file-pdf-o"></i></a>
+            <a href="#" id="time-tracking-create-invoice" 
+                data-toggle="modal" data-target="#time-tracking-create-invoice-modal"
+                data-project-ids="<%- item.id %>"
+                class="btn btn-success pull-right"><i class="fa fa-money"></i></a>
             
             <table class="table table-striped">
                 <thead>

@@ -199,13 +199,16 @@ class TimeTrackingAll{
     createInvoice(){
         var $ = jQuery.noConflict();
         var _this = this;
-        //var time = timeTrackingEntries.get( $('#time-tracking-list .tab-pane.active').data('project-ids') ).get('time')/1000/60/60;        
+        var timeTrackingEntry = timeTrackingEntries.get( $('#time-tracking-list .tab-pane.active').data('project-ids') );
         var data = {
             '_token' : $('[name=_token]').val(),
             'client_id' : $('#time-tracking-create-invoice-client select').val(),
             'discount' : $('#time-tracking-create-invoice-discount').val(),
             'description' : $('#time-tracking-create-invoice-description').val(),
-            'quantity'  :  timeTrackingEntries.get( $('#time-tracking-list .tab-pane.active').data('project-ids') ).get('time')/1000/60/60,
+            'quantity'  :  timeTrackingEntry.get('time')/1000/60/60,
+            'since' :   timeTrackingEntry.get('since'),
+            'until' :   timeTrackingEntry.get('until'),
+            'project_ids'   : $('#time-tracking-list .tab-pane.active').data('project-ids')
         }
         
         $('#time-tracking-create-invoice-button').attr('disabled','disabled');
@@ -214,7 +217,6 @@ class TimeTrackingAll{
         //  Post to the server
         $.post('/time-tracking/invoice', data)
             .done(function(response){
-                
                 if( response['@attributes']['status'] == 'ok' ){
                     
                     // Sets the report url
@@ -227,6 +229,9 @@ class TimeTrackingAll{
                     
                 }
                 
+            })
+            .fail(function(response){
+                console.log(response.responseText);
             })
             .always(function(response){
                 $('#time-tracking-create-invoice-button').removeAttr('disabled');

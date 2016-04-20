@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>Project Title</th>
+            <th>Type</th>
             <th>Client Company</th>
             <th>Contact Name</th>
             <th>Contact Email</th>
@@ -12,6 +13,12 @@
     <?php foreach($proposals as $proposal): ?>
         <tr id="<?php echo e($proposal->uid); ?>">
             <td><?php echo e($proposal->{'project-details-title'}); ?></td>
+            <td>
+                <span class="label label-<?php echo e($type_meta[ $proposal->{'project-details-type'} ]['class']); ?>">
+                    <?php echo e($type_meta[ $proposal->{'project-details-type'} ]['name']); ?>
+
+                </span>
+            </td>
             <td><?php echo e($proposal->{'project-details-client-company-name'}); ?></td>
             <td><?php echo e($proposal->{'project-details-client-contact-name'}); ?></td>
             <td>
